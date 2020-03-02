@@ -3,8 +3,7 @@
 (function () {
   var QUANTITY_PINS = 8;
 
-  var mapBlock = document.querySelector('.map');
-  var pinsBlock = mapBlock.querySelector('.map__pins');
+  var pinsBlock = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
@@ -30,8 +29,7 @@
     pinsBlock.appendChild(fragment);
   };
 
-  mapBlock.addEventListener('click', function () {
-    mapBlock.classList.remove('map--faded');
-    window.backend.load(renderPins);
-  });
+  window.pins = {
+    renderPins: renderPins
+  };
 })();
