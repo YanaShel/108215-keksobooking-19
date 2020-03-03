@@ -6,6 +6,7 @@
   var filters = mapBlock.querySelector('.map__filters-container');
   var pinMain = mapBlock.querySelector('.map__pin--main');
 
+
   var loadDate = function (data) {
     pins = data;
     pinMain.addEventListener('click', function () {
@@ -29,6 +30,12 @@
     }
   });
 
+  mapBlock.addEventListener('keydown', function (evt) {
+    if (evt.key === window.utils.Key.ENTER) {
+      var srcActivePin = evt.target.children[0].attributes.src.value;
+      showAdvert(srcActivePin);
+    }
+  });
 
   window.backend.load(loadDate);
 

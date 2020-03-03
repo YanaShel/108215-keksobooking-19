@@ -8,8 +8,11 @@
     palace: 'Дворец'
   };
 
+  var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardElement = cardTemplate.cloneNode(true);
+  var photosBlock = cardElement.querySelector('.popup__photos');
+  var photosElement = cardElement.querySelector('.popup__photo');
 
   var createFeatures = function (card) {
     var featuresBlock = cardElement.querySelector('.popup__features');
@@ -23,8 +26,6 @@
   };
 
   var createPhotos = function (card) {
-    var photosBlock = cardElement.querySelector('.popup__photos');
-    var photosElement = cardElement.querySelector('.popup__photo');
     if (card.offer.photos.length) {
       photosBlock.textContent = '';
       photosElement.classList.remove('hidden');
@@ -41,8 +42,25 @@
     }
   };
 
-  var createCard = function (card) {
+  var closePopupCard = function () {
+    var card = map.querySelector('.map__card');
+    card.remove();
+  };
 
+  var onPopupCloseEnterPress = function (evt) {
+    if (evt.key === window.utils.Key.ENTER) {
+      closePopupCard();
+    }
+  };
+
+  // var onPopupCloseEscapePress = function (evt) {
+  //   if (evt.key === window.utils.Key.ESCAPE) {
+  //     closePopupCard();
+  //   }
+  // };
+
+  var createCard = function (card) {
+    var buttonClosePopup = cardElement.querySelector('.popup__close');
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
@@ -54,8 +72,16 @@
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
     cardElement.querySelector('.popup__avatar').src = card.author.avatar;
 
+    buttonClosePopup.addEventListener('click', closePopupCard);
+    buttonClosePopup.addEventListener('keydown', onPopupCloseEnterPress);
+
+
     return cardElement;
   };
+
+  // document.addEventListener('keydown', onPopupCloseEscapePress);
+  document.removeEventListener('keydown', onPopupCloseEnterPress);
+  // document.removeEventListener('keydown', onPopupCloseEscapePress);
 
   window.card = {
     createCard: createCard
