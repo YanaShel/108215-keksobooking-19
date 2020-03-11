@@ -61,7 +61,7 @@ video {
 
 /**
  * Prevent modern browsers from displaying `audio` without controls.
- * Remove excess height in iOS 5 devices.
+ * Remove excess HEIGHT in iOS 5 devices.
  */
 
 audio:not([controls]) {
@@ -155,7 +155,7 @@ small {
 }
 
 /**
- * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ * Prevent `sub` and `sup` affecting `line-HEIGHT` in all browsers.
  */
 
 sub,
@@ -315,7 +315,7 @@ input::-moz-focus-inner {
 }
 
 /**
- * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * Address Firefox 4+ setting `line-HEIGHT` on `input` using `!important` in
  * the UA stylesheet.
  */
 
@@ -325,7 +325,7 @@ input {
 
 /**
  * It's recommended that you don't atblock-bordert to style these elements.
- * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ * Firefox's implementation doesn't respect box-sizing, padding, or WIDTH.
  *
  * 1. Address box sizing set to `content-box` in IE 8/9/10.
  * 2. Remove excess padding in IE 8/9/10.

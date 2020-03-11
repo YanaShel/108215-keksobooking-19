@@ -13,6 +13,9 @@
   var cardElement = cardTemplate.cloneNode(true);
   var photosBlock = cardElement.querySelector('.popup__photos');
   var photosElement = cardElement.querySelector('.popup__photo');
+  var mapBlock = document.querySelector('.map');
+  var filters = mapBlock.querySelector('.map__filters-container');
+
 
   var createFeatures = function (card) {
     var featuresBlock = cardElement.querySelector('.popup__features');
@@ -45,6 +48,8 @@
   var closePopupCard = function () {
     var card = map.querySelector('.map__card');
     card.remove();
+    document.removeEventListener('keydown', onPopupCloseEscapePress);
+    document.removeEventListener('keydown', onPopupCloseEnterPress);
   };
 
   var onPopupCloseEnterPress = function (evt) {
@@ -53,11 +58,11 @@
     }
   };
 
-  // var onPopupCloseEscapePress = function (evt) {
-  //   if (evt.key === window.utils.Key.ESCAPE) {
-  //     closePopupCard();
-  //   }
-  // };
+  var onPopupCloseEscapePress = function (evt) {
+    if (evt.key === window.utils.Key.ESCAPE) {
+      closePopupCard();
+    }
+  };
 
   var createCard = function (card) {
     var buttonClosePopup = cardElement.querySelector('.popup__close');
@@ -74,16 +79,16 @@
 
     buttonClosePopup.addEventListener('click', closePopupCard);
     buttonClosePopup.addEventListener('keydown', onPopupCloseEnterPress);
-
+    document.addEventListener('keydown', onPopupCloseEscapePress);
 
     return cardElement;
   };
 
-  // document.addEventListener('keydown', onPopupCloseEscapePress);
-  document.removeEventListener('keydown', onPopupCloseEnterPress);
-  // document.removeEventListener('keydown', onPopupCloseEscapePress);
+  var insertCard = function (pin) {
+    mapBlock.insertBefore(createCard(pin), filters);
+  };
 
   window.card = {
-    createCard: createCard
+    insertCard: insertCard
   };
 })();

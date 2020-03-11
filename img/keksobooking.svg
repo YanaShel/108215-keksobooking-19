@@ -11,7 +11,7 @@
         stroke: #343434;
         stroke-linejoin: round;
         stroke-opacity: 0.5;
-        stroke-width: 1px;
+        stroke-WIDTH: 1px;
       }
     </style>
   </defs>

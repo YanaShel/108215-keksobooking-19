@@ -1,8 +1,11 @@
 'use strict';
 
 (function () {
-  var QUANTITY_PINS = 8;
-
+  var QUANTITY_PINS = 10;
+  var PinSize = {
+    WIDTH: 50,
+    HEIGHT: 70
+  };
   var pinsBlock = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin')
     .content
@@ -12,8 +15,8 @@
     var pinElement = pinTemplate.cloneNode(true);
     var pinAvatar = pinElement.querySelector('img');
 
-    pinElement.style.left = pin.location.x + 'px';
-    pinElement.style.top = pin.location.y + 'px';
+    pinElement.style.left = pin.location.x - (PinSize.WIDTH / 2) + 'px';
+    pinElement.style.top = pin.location.y - PinSize.HEIGHT + 'px';
     pinAvatar.src = pin.author.avatar;
     pinAvatar.alt = pin.offer.title;
 
