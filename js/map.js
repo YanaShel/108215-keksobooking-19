@@ -32,7 +32,6 @@
         y: evt.clientY
       };
 
-
       var onMouseMove = function (moveEvt) {
         var shift = {
           x: startCoords.x - moveEvt.clientX,
@@ -54,7 +53,7 @@
           pinMain.style.left = newCoordinate.x + 'px';
         }
 
-        if (newCoordinate.y >= 130 && newCoordinate <= 630) {
+        if (newCoordinate.y >= 130 && newCoordinate.y <= 630) {
           pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
         }
 
