@@ -12,6 +12,7 @@
   var formAdvert = document.querySelector('.ad-form');
   var addressInput = formAdvert.querySelector('#address');
 
+
   var coordinateMainPin = {
     x: Math.round(pinMain.offsetLeft + (MainPinSize.WIDTH / 2)),
     y: Math.round(pinMain.offsetTop + MainPinSize.HEIGHT + MainPinSize.TAIL_LENGTH)

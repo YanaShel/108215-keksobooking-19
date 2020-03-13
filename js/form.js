@@ -45,6 +45,10 @@
   var priceInput = form.querySelector('#price');
   var timeInSelect = form.querySelector('#timein');
   var timeOutSelect = form.querySelector('#timeout');
+  var mapBlock = document.querySelector('.map');
+  var formAdvert = document.querySelector('.ad-form');
+  var mainTag = document.querySelector('main');
+  var pinsBlock = document.querySelector('.map__pins');
 
   numberRoomsSelect.addEventListener('change', function () {
     var currentValueIndex = ROOMS_VALUES.indexOf(numberRoomsSelect.value);
@@ -104,9 +108,57 @@
     }
   };
 
+  var removeMessage = function () {
+    var successMessage = document.querySelector('.success');
+    var errorMessage = document.querySelector('.error');
+
+    if (successMessage) {
+      successMessage.remove();
+    }
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+  };
+
+  var addMessage = function (template) {
+    var messageElement = template.cloneNode(true);
+    mainTag.appendChild(messageElement);
+    document.addEventListener('click', removeMessage);
+  };
+
+  var inactivateMap = function () {
+    mapBlock.classList.add('map--faded');
+    formAdvert.classList.add('ad-form--disabled');
+    var pins = pinsBlock.querySelectorAll('.map__pin');
+    pins.forEach(function (pin) {
+      if (pin.classList.length === 1) {
+        pinsBlock.removeChild(pin);
+      }
+    });
+  };
+
+  var showSuccessMessage = function () {
+    var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+    addMessage(successMessageTemplate);
+    inactivateMap();
+  };
+
+  var showErrorMessage = function () {
+    var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+    addMessage(errorMessageTemplate);
+    inactivateMap();
+  };
+
+  var onFormSubmit = function (evt) {
+    window.backend.save(new FormData(form), showSuccessMessage, showErrorMessage);
+    evt.preventDefault();
+  };
+
   form.addEventListener('change', function () {
     checkValidityGuests();
     checkValidityTime();
   });
+
+  form.addEventListener('submit', onFormSubmit);
 
 })();
