@@ -4,6 +4,11 @@
   var ROOMS_VALUES = ['1', '2', '3', '100'];
   var GUESTS_VALUES = ['1', '2', '3', '0'];
 
+  var PinMainStartCoordinate = {
+    LEFT: '570px',
+    TOP: '375px'
+  };
+
   var Time = {
     TWELVE: '12:00',
     THIRTEEN: '13:00',
@@ -25,30 +30,37 @@
   };
 
   var roomsAmount = {
-    ONE: 1,
-    TWO: 2,
-    THREE: 3,
-    HUNDRED: 100
+    ONE: '1',
+    TWO: '2',
+    THREE: '3',
+    HUNDRED: '100'
   };
 
   var guestsAmount = {
-    ZERO: 0,
-    ONE: 1,
-    TWO: 2,
-    THREE: 3
+    ZERO: '0',
+    ONE: '1',
+    TWO: '2',
+    THREE: '3'
   };
 
-  var form = document.querySelector('.ad-form');
-  var numberRoomsSelect = form.querySelector('#room_number');
-  var numberSeatsSelect = form.querySelector('#capacity');
-  var typeHousingInput = form.querySelector('#type');
-  var priceInput = form.querySelector('#price');
-  var timeInSelect = form.querySelector('#timein');
-  var timeOutSelect = form.querySelector('#timeout');
-  var mapBlock = document.querySelector('.map');
-  var formAdvert = document.querySelector('.ad-form');
   var mainTag = document.querySelector('main');
-  var pinsBlock = document.querySelector('.map__pins');
+  var selectTags = mainTag.querySelectorAll('select');
+  var inputTags = mainTag.querySelectorAll('input');
+  var mapBlock = mainTag.querySelector('.map');
+  var pinsBlock = mapBlock.querySelector('.map__pins');
+  var pinMain = mapBlock.querySelector('.map__pin--main');
+  var formAdvert = mainTag.querySelector('.ad-form');
+  var numberRoomsSelect = formAdvert.querySelector('#room_number');
+  var numberSeatsSelect = formAdvert.querySelector('#capacity');
+  var typeHousingInput = formAdvert.querySelector('#type');
+  var priceInput = formAdvert.querySelector('#price');
+  var timeInSelect = formAdvert.querySelector('#timein');
+  var timeOutSelect = formAdvert.querySelector('#timeout');
+  var titleAdvert = formAdvert.querySelector('#title');
+  var priceAdvert = formAdvert.querySelector('#price');
+  var descriptionAdvert = formAdvert.querySelector('#description');
+  var addressInput = formAdvert.querySelector('#address');
+  var featureInputs = formAdvert.querySelectorAll('.feature');
 
   numberRoomsSelect.addEventListener('change', function () {
     var currentValueIndex = ROOMS_VALUES.indexOf(numberRoomsSelect.value);
@@ -103,6 +115,8 @@
       numberSeatsSelect.setCustomValidity('Выберите допустимый вариант "Не для гостей"');
     } else if (numberSeatsSelect.value > numberRoomsSelect.value && numberRoomsSelect.value !== roomsAmount.HUNDRED) {
       numberSeatsSelect.setCustomValidity('Слишком много гостей');
+    } else if (numberRoomsSelect.value !== roomsAmount.HUNDRED && numberSeatsSelect.value === guestsAmount.ZERO) {
+      numberSeatsSelect.setCustomValidity('Выбирите допустимое количество гостей');
     } else {
       numberSeatsSelect.setCustomValidity('');
     }
@@ -128,13 +142,33 @@
 
   var inactivateMap = function () {
     mapBlock.classList.add('map--faded');
-    formAdvert.classList.add('ad-form--disabled');
+    formAdvert.classList.add('ad-formAdvert--disabled');
     var pins = pinsBlock.querySelectorAll('.map__pin');
     pins.forEach(function (pin) {
       if (pin.classList.length === 1) {
         pinsBlock.removeChild(pin);
       }
     });
+    var cardAdvert = document.querySelector('.map__card');
+    if (cardAdvert) {
+      cardAdvert.remove();
+    }
+    window.map.setAttribute(selectTags);
+    window.map.setAttribute(inputTags);
+    pinMain.style.top = PinMainStartCoordinate.TOP;
+    pinMain.style.left = PinMainStartCoordinate.LEFT;
+    addressInput.value = window.map.coordinateMainPin.x + ', ' + window.map.coordinateMainPin.y;
+    titleAdvert.value = '';
+    priceAdvert.value = '';
+    typeHousingInput.value = HouseType.FLAT;
+    numberRoomsSelect.value = roomsAmount.ONE;
+    numberSeatsSelect.value = guestsAmount.THREE;
+    timeInSelect.value = Time.TWELVE;
+    timeOutSelect.value = Time.TWELVE;
+    featureInputs.forEach(function (input) {
+      input.control.checked = false;
+    });
+    descriptionAdvert.value = '';
   };
 
   var showSuccessMessage = function () {
@@ -150,15 +184,15 @@
   };
 
   var onFormSubmit = function (evt) {
-    window.backend.save(new FormData(form), showSuccessMessage, showErrorMessage);
+    window.backend.save(new FormData(formAdvert), showSuccessMessage, showErrorMessage);
     evt.preventDefault();
   };
 
-  form.addEventListener('change', function () {
+  formAdvert.addEventListener('change', function () {
     checkValidityGuests();
     checkValidityTime();
   });
 
-  form.addEventListener('submit', onFormSubmit);
+  formAdvert.addEventListener('submit', onFormSubmit);
 
 })();

@@ -11,7 +11,23 @@
   var pinMain = mapBlock.querySelector('.map__pin--main');
   var formAdvert = document.querySelector('.ad-form');
   var addressInput = formAdvert.querySelector('#address');
+  var selectTags = document.querySelectorAll('select');
+  var inputTags = document.querySelectorAll('input');
 
+  var setAttribute = function (tags) {
+    tags.forEach(function (tag) {
+      tag.setAttribute('disabled', 'disabled');
+    });
+  };
+
+  var removeAttribute = function (tags) {
+    tags.forEach(function (tag) {
+      tag.removeAttribute('disabled');
+    });
+  };
+
+  setAttribute(selectTags);
+  setAttribute(inputTags);
 
   var coordinateMainPin = {
     x: Math.round(pinMain.offsetLeft + (MainPinSize.WIDTH / 2)),
@@ -82,6 +98,8 @@
   var activateMap = function () {
     mapBlock.classList.remove('map--faded');
     formAdvert.classList.remove('ad-form--disabled');
+    removeAttribute(selectTags);
+    removeAttribute(inputTags);
     window.pins.renderPins(pins);
   };
 
@@ -108,5 +126,10 @@
   });
 
   window.backend.load(loadDate);
+
+  window.map = {
+    coordinateMainPin: coordinateMainPin,
+    setAttribute: setAttribute
+  };
 
 })();
